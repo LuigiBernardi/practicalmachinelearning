@@ -52,5 +52,28 @@ pml_testing <- pml_testing_raw %>%
 
 ## Building predictive model with cross validation
 
+For predicting proper execution of exercise I fitted and compare two different models:  
+
+* A **CART** model using **rpart** method and **10-fold cross validation** in train function of caret package called **pml_modfit_rpart**,
+* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package called **pml_modfit_rf**. For this second model I decided to use just a 2-fold cross validation to reduce computational time in case peer reviewers will decide to re-run my code.
+
+```{r fit, echo=TRUE, message=FALSE, cache=TRUE}
+library(caret)
+
+RNGversion("3.0.0")
+set.seed(691979)
+pml_modfit_rpart <- train(classe ~ .,
+                          method = "rpart",
+                          trControl = trainControl(method = "cv", number = 10),
+                          data = pml_training)
+
+RNGversion("3.0.0")
+set.seed(691979)
+pml_modfit_rf <- train(classe ~ .,
+                       method = "rf",
+                       trControl = trainControl(method = "cv", number = 2),
+                       data = pml_training)
+```
+
 
 

@@ -234,6 +234,26 @@ pml_testing &lt;- pml_testing_raw %&gt;%
 </div>
 <div id="building-predictive-model-with-cross-validation" class="section level2">
 <h2>Building predictive model with cross validation</h2>
+<p>For predicting proper execution of exercise I fitted and compare two different models:</p>
+<ul>
+<li>A <strong>CART</strong> model using <strong>rpart</strong> method and <strong>10-fold cross validation</strong> in train function of caret package called <strong>pml_modfit_rpart</strong>,</li>
+<li>A <strong>random forest</strong> model using <strong>rpart</strong> method and <strong>2-fold cross validation</strong> in train function of caret package called <strong>pml_modfit_rf</strong>. For this second model I decided to use just a 2-fold cross validation to reduce computational time in case peer reviewers will decide to re-run my code.</li>
+</ul>
+<pre class="r"><code>library(caret)
+
+RNGversion(&quot;3.0.0&quot;)
+set.seed(691979)
+pml_modfit_rpart &lt;- train(classe ~ .,
+                          method = &quot;rpart&quot;,
+                          trControl = trainControl(method = &quot;cv&quot;, number = 10),
+                          data = pml_training)
+
+RNGversion(&quot;3.0.0&quot;)
+set.seed(691979)
+pml_modfit_rf &lt;- train(classe ~ .,
+                       method = &quot;rf&quot;,
+                       trControl = trainControl(method = &quot;cv&quot;, number = 2),
+                       data = pml_training)</code></pre>
 </div>
 
 
