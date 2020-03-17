@@ -1,30 +1,50 @@
 ---
 title: "Practical machine learning course project"
 author: "Luigi Bernardi"
-date: "14 marzo 2020"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is performed correctly using data form accelerometers on the belt, forearm, arm, and dumbell of 6 participants to the experiment. participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways:
+
+* exactly according to the specification (Class A),
+* throwing the elbows to the front (Class B),
+* lifting the dumbbell only halfway (Class C),
+* lowering the dumbbell only halfway (Class D)
+* throwing the hips to the front (Class E).
+
+Class A corresponds to the specified execution of the exercise, while the other 4 classes correspond to common mistakes.
+
+More information is available from the website here: http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har
+
+The training data for this project are available here:
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+The test data are available here:
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+
+The **classe** variable in training set is the outcome and is possible to use any of the other variables for prediction.
+In this report I'll briefly explain:
+
+* how I built predictive model,
+* how I used cross validation,
+* expectation regarding out of sample error.
+
+Finally I'll show results of my prection on 20 cases in testing set.
+
+## Loading and preprocessing the data
+
+Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames 
+
+```{r load, echo=TRUE, message=FALSE, cache=TRUE}
+library(tidyverse)
+
+pml_training_raw <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
+pml_testing_raw <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
+
+pml_training <- pml_training_raw %>% 
+      select(classe, ends_with("_X"), ends_with("_y"), ends_with("_z"))
+
+pml_testing <- pml_testing_raw %>% 
+      select(ends_with("_X"), ends_with("_y"), ends_with("_z"))
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
