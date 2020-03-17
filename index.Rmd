@@ -14,15 +14,17 @@ The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is per
 
 Class A corresponds to the specified execution of the exercise, while the other 4 classes correspond to common mistakes.
 
-More information is available from the website here: http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har
+More information is available from the website here:  
+http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har
 
-The training data for this project are available here:
+The training data for this project are available here:  
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
 
-The test data are available here:
+The test data are available here:  
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 
-The **classe** variable in training set is the outcome and is possible to use any of the other variables for prediction.
+The **classe** variable in training set will be the outcome and a selection from the other variables will be used for prediction.
+  
 In this report I'll briefly explain:
 
 * how I built predictive model,
@@ -33,7 +35,7 @@ Finally I'll show results of my prection on 20 cases in testing set.
 
 ## Loading and preprocessing the data
 
-Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames 
+Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors in my model. My final training and testing sets are **pml_training** and **pml_testing**. 
 
 ```{r load, echo=TRUE, message=FALSE, cache=TRUE}
 library(tidyverse)
@@ -47,4 +49,8 @@ pml_training <- pml_training_raw %>%
 pml_testing <- pml_testing_raw %>% 
       select(ends_with("_X"), ends_with("_y"), ends_with("_z"))
 ```
+
+## Building predictive model with cross validation
+
+
 

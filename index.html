@@ -204,10 +204,14 @@ $(document).ready(function () {
 <li>throwing the hips to the front (Class E).</li>
 </ul>
 <p>Class A corresponds to the specified execution of the exercise, while the other 4 classes correspond to common mistakes.</p>
-<p>More information is available from the website here: <a href="http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har" class="uri">http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har</a></p>
-<p>The training data for this project are available here: <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
-<p>The test data are available here: <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
-<p>The <strong>classe</strong> variable in training set is the outcome and is possible to use any of the other variables for prediction. In this report I’ll briefly explain:</p>
+<p>More information is available from the website here:<br />
+<a href="http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har" class="uri">http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har</a></p>
+<p>The training data for this project are available here:<br />
+<a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
+<p>The test data are available here:<br />
+<a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
+<p>The <strong>classe</strong> variable in training set will be the outcome and a selection from the other variables will be used for prediction.</p>
+<p>In this report I’ll briefly explain:</p>
 <ul>
 <li>how I built predictive model,</li>
 <li>how I used cross validation,</li>
@@ -216,7 +220,7 @@ $(document).ready(function () {
 <p>Finally I’ll show results of my prection on 20 cases in testing set.</p>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>Raw data were loaded into <strong>pml_training_raw</strong> and <strong>pml_testing_raw</strong> data frames</p>
+<p>Raw data were loaded into <strong>pml_training_raw</strong> and <strong>pml_testing_raw</strong> data frames. Then I selected all variables measuring movements (identified by <strong>x</strong>, <strong>y</strong> and <strong>z</strong> suffix) for using them as predictors in my model. My final training and testing sets are <strong>pml_training</strong> and <strong>pml_testing</strong>.</p>
 <pre class="r"><code>library(tidyverse)
 
 pml_training_raw &lt;- read.csv(&quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv&quot;)
@@ -227,6 +231,9 @@ pml_training &lt;- pml_training_raw %&gt;%
 
 pml_testing &lt;- pml_testing_raw %&gt;% 
       select(ends_with(&quot;_X&quot;), ends_with(&quot;_y&quot;), ends_with(&quot;_z&quot;))</code></pre>
+</div>
+<div id="building-predictive-model-with-cross-validation" class="section level2">
+<h2>Building predictive model with cross validation</h2>
 </div>
 
 
