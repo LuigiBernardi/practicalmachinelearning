@@ -55,7 +55,7 @@ pml_testing <- pml_testing_raw %>%
 For predicting proper execution of exercise I fitted and compared two different models:  
 
 * A **CART** model using **rpart** method and **10-fold cross validation** in train function of caret package (**pml_modfit_rpart**),
-* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**). For this model I decided to use just a 2-fold cross validation aiming to reduce computational time if reviewers will decide to run my code.
+* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**). For this model I decided to use just a 2-fold cross validation aiming to reduce computational time if reviewers will decide to run code.
 
 ```{r fit, echo=TRUE, message=FALSE, cache=TRUE}
 library(caret)
