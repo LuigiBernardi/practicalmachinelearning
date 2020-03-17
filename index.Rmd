@@ -75,5 +75,26 @@ pml_modfit_rf <- train(classe ~ .,
                        data = pml_training)
 ```
 
+## Comparing models
+
+Evaluation metrics for **pml_modfit_rpart** and **pml_modfit_rf** are reported in following figures.
+
+```{r compare_rpart, echo=TRUE, message=TRUE, cache=TRUE}
+pml_modfit_rpart
+```
+
+```{r compare_rf, echo=TRUE, message=TRUE, cache=TRUE}
+pml_modfit_rf
+```
+
+Random forest model **pml_modfit_rf** is more accurate and so I decided to use it as final model for my predictions.
+
+## Final model description
+
+descrivo modello
+
+## Expectation regarding out of sample error and predictions for test cases
+
+descrivo aspettive su out of sample e predico sui 20 casi
 
 

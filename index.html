@@ -255,6 +255,57 @@ pml_modfit_rf &lt;- train(classe ~ .,
                        trControl = trainControl(method = &quot;cv&quot;, number = 2),
                        data = pml_training)</code></pre>
 </div>
+<div id="comparing-models" class="section level2">
+<h2>Comparing models</h2>
+<p>Evaluation metrics for <strong>pml_modfit_rpart</strong> and <strong>pml_modfit_rf</strong> are reported in following figures.</p>
+<pre class="r"><code>pml_modfit_rpart</code></pre>
+<pre><code>## CART 
+## 
+## 19622 samples
+##    36 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 17661, 17661, 17660, 17658, 17660, 17659, ... 
+## Resampling results across tuning parameters:
+## 
+##   cp          Accuracy   Kappa     
+##   0.03254522  0.4081661  0.23316116
+##   0.05077624  0.3638291  0.15714897
+##   0.07278166  0.3207130  0.05691501
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was cp = 0.03254522.</code></pre>
+<pre class="r"><code>pml_modfit_rf</code></pre>
+<pre><code>## Random Forest 
+## 
+## 19622 samples
+##    36 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (2 fold) 
+## Summary of sample sizes: 9812, 9810 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa    
+##    2    0.9816024  0.9767184
+##   19    0.9774745  0.9714945
+##   36    0.9721234  0.9647203
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 2.</code></pre>
+<p>Random forest model <strong>pml_modfit_rf</strong> is more accurate and so I decided to use it as final model for my predictions.</p>
+</div>
+<div id="final-model-description" class="section level2">
+<h2>Final model description</h2>
+<p>descrivo modello</p>
+</div>
+<div id="expectation-regarding-out-of-sample-error-and-predictions-for-test-cases" class="section level2">
+<h2>Expectation regarding out of sample error and predictions for test cases</h2>
+<p>descrivo aspettive su out of sample e predico sui 20 casi</p>
+</div>
 
 
 
