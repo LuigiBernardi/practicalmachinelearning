@@ -300,11 +300,61 @@ pml_modfit_rf &lt;- train(classe ~ .,
 </div>
 <div id="final-model-description" class="section level2">
 <h2>Final model description</h2>
-<p>descrivo modello</p>
+<p>As shown in figure <strong>pml_modfit_rf</strong> use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.</p>
+<pre class="r"><code>varImp(pml_modfit_rf)</code></pre>
+<pre><code>## rf variable importance
+## 
+##   only 20 most important variables shown (out of 36)
+## 
+##                   Overall
+## magnet_dumbbell_z  100.00
+## magnet_dumbbell_y   87.02
+## magnet_dumbbell_x   74.40
+## accel_dumbbell_y    62.74
+## magnet_belt_z       61.19
+## accel_belt_z        59.32
+## magnet_belt_y       57.79
+## accel_dumbbell_z    54.49
+## accel_forearm_x     42.98
+## accel_dumbbell_x    42.74
+## gyros_belt_z        40.04
+## gyros_dumbbell_y    39.04
+## magnet_arm_y        38.76
+## accel_arm_x         38.71
+## magnet_arm_x        37.17
+## magnet_forearm_x    35.44
+## magnet_forearm_z    34.18
+## magnet_belt_x       33.34
+## magnet_forearm_y    32.39
+## accel_forearm_z     31.86</code></pre>
+<p>Figure show that for predicting the proper execution of exercise magnets located on the dumbell are the most important variables.</p>
 </div>
 <div id="expectation-regarding-out-of-sample-error-and-predictions-for-test-cases" class="section level2">
 <h2>Expectation regarding out of sample error and predictions for test cases</h2>
-<p>descrivo aspettive su out of sample e predico sui 20 casi</p>
+<p>Regarding to out of sample error, I’ll expect a <strong>greater value that in sample error</strong>. Finally I used model to predict values for 20 test cases provided. Following figure show results of my predictions.</p>
+<pre class="r"><code>data.frame(case = 1:20,
+           predicted_class = predict(pml_modfit_rf, pml_testing))</code></pre>
+<pre><code>##    case predicted_class
+## 1     1               B
+## 2     2               A
+## 3     3               B
+## 4     4               A
+## 5     5               A
+## 6     6               E
+## 7     7               D
+## 8     8               B
+## 9     9               A
+## 10   10               A
+## 11   11               B
+## 12   12               C
+## 13   13               B
+## 14   14               A
+## 15   15               E
+## 16   16               E
+## 17   17               A
+## 18   18               B
+## 19   19               B
+## 20   20               B</code></pre>
 </div>
 
 

@@ -91,10 +91,22 @@ Random forest model **pml_modfit_rf** is more accurate and so I decided to use i
 
 ## Final model description
 
-descrivo modello
+As shown in figure **pml_modfit_rf** use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.
+
+```{r importance, echo=TRUE, message=TRUE, cache=TRUE}
+varImp(pml_modfit_rf)
+```
+
+Figure show that for predicting the proper execution of exercise magnets located on the dumbell are the most important variables.
 
 ## Expectation regarding out of sample error and predictions for test cases
 
-descrivo aspettive su out of sample e predico sui 20 casi
+Regarding to out of sample error, I'll expect it to be **greater than in sample error**. Finally I used model to predict values for 20 test cases provided. Following figure show results of my predictions.
+
+```{r predict, echo=TRUE, message=TRUE, cache=TRUE}
+data.frame(case = 1:20,
+           predicted_class = predict(pml_modfit_rf, pml_testing))
+```
+
 
 
