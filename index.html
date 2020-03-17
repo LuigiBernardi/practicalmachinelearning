@@ -195,7 +195,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is performed correctly using data form accelerometers on the belt, forearm, arm, and dumbell of 6 participants to the experiment. participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways:</p>
+<p>The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is performed correctly using data form accelerometers on the belt, forearm, arm, and dumbell of 6 participants to the experiment. Participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways:</p>
 <ul>
 <li>exactly according to the specification (Class A),</li>
 <li>throwing the elbows to the front (Class B),</li>
@@ -217,10 +217,10 @@ $(document).ready(function () {
 <li>how I used cross validation,</li>
 <li>expectation regarding out of sample error.</li>
 </ul>
-<p>Finally I’ll show results of my prection on 20 cases in testing set.</p>
+<p>Finally I’ll show results of my prection on the 20 cases in testing set.</p>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>Raw data were loaded into <strong>pml_training_raw</strong> and <strong>pml_testing_raw</strong> data frames. Then I selected all variables measuring movements (identified by <strong>x</strong>, <strong>y</strong> and <strong>z</strong> suffix) for using them as predictors in my model. My final training and testing sets are <strong>pml_training</strong> and <strong>pml_testing</strong>.</p>
+<p>Raw data were loaded into <strong>pml_training_raw</strong> and <strong>pml_testing_raw</strong> data frames. Then I selected all variables measuring movements (identified by <strong>x</strong>, <strong>y</strong> and <strong>z</strong> suffix) for using them as predictors. Final training and testing sets are <strong>pml_training</strong> and <strong>pml_testing</strong>.</p>
 <pre class="r"><code>library(tidyverse)
 
 pml_training_raw &lt;- read.csv(&quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv&quot;)
@@ -234,10 +234,10 @@ pml_testing &lt;- pml_testing_raw %&gt;%
 </div>
 <div id="building-predictive-model-with-cross-validation" class="section level2">
 <h2>Building predictive model with cross validation</h2>
-<p>For predicting proper execution of exercise I fitted and compare two different models:</p>
+<p>For predicting proper execution of exercise I fitted and compared two different models:</p>
 <ul>
-<li>A <strong>CART</strong> model using <strong>rpart</strong> method and <strong>10-fold cross validation</strong> in train function of caret package called <strong>pml_modfit_rpart</strong>,</li>
-<li>A <strong>random forest</strong> model using <strong>rpart</strong> method and <strong>2-fold cross validation</strong> in train function of caret package called <strong>pml_modfit_rf</strong>. For this second model I decided to use just a 2-fold cross validation to reduce computational time in case peer reviewers will decide to re-run my code.</li>
+<li>A <strong>CART</strong> model using <strong>rpart</strong> method and <strong>10-fold cross validation</strong> in train function of caret package (<strong>pml_modfit_rpart</strong>),</li>
+<li>A <strong>random forest</strong> model using <strong>rpart</strong> method and <strong>2-fold cross validation</strong> in train function of caret package (<strong>pml_modfit_rf</strong>). For this model I decided to use just a 2-fold cross validation aiming to reduce computational time if reviewers will decide to run my code.</li>
 </ul>
 <pre class="r"><code>library(caret)
 
@@ -300,7 +300,7 @@ pml_modfit_rf &lt;- train(classe ~ .,
 </div>
 <div id="final-model-description" class="section level2">
 <h2>Final model description</h2>
-<p>As shown in figure <strong>pml_modfit_rf</strong> use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.</p>
+<p>As shown in figure, <strong>pml_modfit_rf</strong> use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.</p>
 <pre class="r"><code>varImp(pml_modfit_rf)</code></pre>
 <pre><code>## rf variable importance
 ## 
@@ -327,11 +327,11 @@ pml_modfit_rf &lt;- train(classe ~ .,
 ## magnet_belt_x       33.34
 ## magnet_forearm_y    32.39
 ## accel_forearm_z     31.86</code></pre>
-<p>Figure show that for predicting the proper execution of exercise magnets located on the dumbell are the most important variables.</p>
+<p>Figure show that for predicting the proper execution of exercise measures from magnets located on the dumbell are the most important variables.</p>
 </div>
 <div id="expectation-regarding-out-of-sample-error-and-predictions-for-test-cases" class="section level2">
 <h2>Expectation regarding out of sample error and predictions for test cases</h2>
-<p>Regarding to out of sample error, I’ll expect a <strong>greater value that in sample error</strong>. Finally I used model to predict values for 20 test cases provided. Following figure show results of my predictions.</p>
+<p>Regarding to out of sample error, I’ll expect it to be <strong>greater than in sample error</strong>. Finally I used model to predict values for the 20 test cases provided. Following figure show results of my predictions.</p>
 <pre class="r"><code>data.frame(case = 1:20,
            predicted_class = predict(pml_modfit_rf, pml_testing))</code></pre>
 <pre><code>##    case predicted_class

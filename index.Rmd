@@ -4,7 +4,7 @@ author: "Luigi Bernardi"
 output: html_document
 ---
 
-The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is performed correctly using data form accelerometers on the belt, forearm, arm, and dumbell of 6 participants to the experiment. participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways:
+The goal of this project is to predict if Unilateral Dumbbell Biceps Curl is performed correctly using data form accelerometers on the belt, forearm, arm, and dumbell of 6 participants to the experiment. Participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways:
 
 * exactly according to the specification (Class A),
 * throwing the elbows to the front (Class B),
@@ -31,11 +31,11 @@ In this report I'll briefly explain:
 * how I used cross validation,
 * expectation regarding out of sample error.
 
-Finally I'll show results of my prection on 20 cases in testing set.
+Finally I'll show results of my prection on the 20 cases in testing set.
 
 ## Loading and preprocessing the data
 
-Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors in my model. My final training and testing sets are **pml_training** and **pml_testing**. 
+Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors. Final training and testing sets are **pml_training** and **pml_testing**. 
 
 ```{r load, echo=TRUE, message=FALSE, cache=TRUE}
 library(tidyverse)
@@ -52,10 +52,10 @@ pml_testing <- pml_testing_raw %>%
 
 ## Building predictive model with cross validation
 
-For predicting proper execution of exercise I fitted and compare two different models:  
+For predicting proper execution of exercise I fitted and compared two different models:  
 
-* A **CART** model using **rpart** method and **10-fold cross validation** in train function of caret package called **pml_modfit_rpart**,
-* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package called **pml_modfit_rf**. For this second model I decided to use just a 2-fold cross validation to reduce computational time in case peer reviewers will decide to re-run my code.
+* A **CART** model using **rpart** method and **10-fold cross validation** in train function of caret package (**pml_modfit_rpart**),
+* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**). For this model I decided to use just a 2-fold cross validation aiming to reduce computational time if reviewers will decide to run my code.
 
 ```{r fit, echo=TRUE, message=FALSE, cache=TRUE}
 library(caret)
@@ -91,17 +91,17 @@ Random forest model **pml_modfit_rf** is more accurate and so I decided to use i
 
 ## Final model description
 
-As shown in figure **pml_modfit_rf** use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.
+As shown in figure, **pml_modfit_rf** use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.
 
 ```{r importance, echo=TRUE, message=TRUE, cache=TRUE}
 varImp(pml_modfit_rf)
 ```
 
-Figure show that for predicting the proper execution of exercise magnets located on the dumbell are the most important variables.
+Figure show that for predicting the proper execution of exercise measures from magnets located on the dumbell are the most important variables.
 
 ## Expectation regarding out of sample error and predictions for test cases
 
-Regarding to out of sample error, I'll expect it to be **greater than in sample error**. Finally I used model to predict values for 20 test cases provided. Following figure show results of my predictions.
+Regarding to out of sample error, I'll expect it to be **greater than in sample error**. Finally I used model to predict values for the 20 test cases provided. Following figure show results of my predictions.
 
 ```{r predict, echo=TRUE, message=TRUE, cache=TRUE}
 data.frame(case = 1:20,
