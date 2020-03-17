@@ -1,9 +1,9 @@
 # Practical machine learning course project
-A brief not for reviewers
+A brief note for peer reviewers
 
-Compiled version of my html file is available at this address:  
+Compiled version of html file is available at this address:  
 https://luigibernardi.github.io/practicalmachinelearning/index.html
 
-You can run the script if you want to replicate my analysis. I decide to use a relatively ligth model in terms of computational time required. On a modern laptop it will take about 3 minutes to train the model.
+You can run the script to replicate my analysis. I decided to use a relatively ligth model in terms of computational resources. On a modern laptop it will take about 3 minutes to train the models.
 
-Thakns a lot and sorry for my bad english but I'n not a native speaker.
+Thanks a lot and sorry for my bad english, but I'm not a native speaker.
