@@ -2,7 +2,7 @@
 A brief note for peer reviewers
 
 Compiled version of html file is available at this address:  
-https://luigibernardi.github.io/practicalmachinelearning
+https://luigibernardi.github.io/practicalmachinelearning/
 
 You can run the script to replicate my analysis. I decided to use a relatively ligth model in terms of computational resources. On a modern laptop it will take about 3 minutes to train the models.
 
