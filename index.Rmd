@@ -29,7 +29,7 @@ In this report I'll briefly explain:
 
 * how I built predictive model,
 * how I used cross validation,
-* expectation regarding out of sample error.
+* expectation regarding out of sample error (accuracy).
 
 Finally I'll show results of my prection on the 20 cases in testing set.
 
@@ -37,7 +37,7 @@ Finally I'll show results of my prection on the 20 cases in testing set.
 
 Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors. Final sets are:  
 
-* **pml_training** used for model building and estimating out of sample error,
+* **pml_training** used for model building and estimating out of sample error (accuracy),
 * **pml_testing** used for prediction on 20 cases. 
 
 ```{r load, echo=TRUE, message=FALSE, cache=TRUE}
@@ -60,7 +60,7 @@ pml_testing <- pml_testing_raw %>%
 ## Building predictive model with cross validation
 
 For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **3 repeats of 5-fold cross validation** in train function of caret package (**pml_modfit_rf**).
-Model was trained and evaluated splitting **pml_training** into a train set with 60% of cases (named **training**) and a test set with remaining 40% (named **testing**). Test set was used for bulding confusion matrix and estimating out of sample accuracy. Parallel computing was allowed.
+Model was trained and evaluated splitting **pml_training** into a train set with 60% of cases (named **training**) and a test set with remaining 40% (named **testing**). Test set was used for bulding confusion matrix and estimating out of sample error (accuracy). Parallel computing was allowed.
 
 ```{r fit, echo=TRUE, message=TRUE, cache=TRUE}
 RNGversion("3.0.0")
@@ -94,9 +94,9 @@ Final model (**pml_modfit_rf**) has an **mtry** (the number of variables randoml
 plot(varImp(pml_modfit_rf), top = 10)
 ```
 
-## Out of sample accuracy and predictions for test cases
+## Out of sample error (accuracy) and predictions for test cases
 
-For an unbiased measure of the out of sample accuracy, predictions on test set were used to build a confusion matrix. **Out of sample accuracy estimate is 0.9832**. 95% IC for the estimate is (0.9801, 0.9859).
+For an unbiased measure of the out of sample error (accuracy), predictions on test set were used to build a confusion matrix. **Out of sample error (accuracy) estimate is 0.9832**. 95% IC for the estimate is (0.9801, 0.9859).
 
 ```{r out_error, echo=TRUE, message=TRUE, cache=TRUE}
 pml_modfit_rf_predict <- predict(pml_modfit_rf, testing)
