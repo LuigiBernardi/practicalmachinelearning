@@ -88,24 +88,22 @@ pml_modfit_rf
 pml_modfit_rf$finalModel
 ```
 
-Final model (**pml_modfit_rf**) use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.
+Final model (**pml_modfit_rf**) has an **mtry** (the number of variables randomly sampled as candidates at each split) equal to **2** and out of bag (**OOB**) estimate of error rate is **1.66%**. Following graph show that most important predictors are variables with measures from magnets and accelerometers placed on dumbells.
 
 ```{r importance, echo=TRUE, message=TRUE, cache=TRUE}
 plot(varImp(pml_modfit_rf), top = 10)
 ```
 
-Figure show that for predicting the proper execution of exercise measures from magnets located on the dumbell are the most important variables.
+## Out of sample accuracy and predictions for test cases
 
-## Out of sample error and predictions for test cases
-
-Out of sample error
+For an unbiased measure of the out of sample accuracy, predictions on test set were used to build a confusion matrix. **Out of sample accuracy estimate is 0.9832**. 95% IC for the estimate is (0.9801, 0.9859).
 
 ```{r out_error, echo=TRUE, message=TRUE, cache=TRUE}
 pml_modfit_rf_predict <- predict(pml_modfit_rf, testing)
 confusionMatrix(pml_modfit_rf_predict, testing$classe)
 ```
 
-Finally I used model to predict values for the 20 test cases provided. Following figure show results of my predictions.
+Finally I used model to predict values for the 20 cases provided.
 
 ```{r predict, echo=TRUE, message=TRUE, cache=TRUE}
 data.frame(case = 1:20,
