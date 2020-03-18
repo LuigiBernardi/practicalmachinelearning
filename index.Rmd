@@ -35,10 +35,10 @@ Finally I'll show results of my prection on the 20 cases in testing set.
 
 ## Loading libraries and data
 
-Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors. Final sets are:  
+Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) and used them as predictors. Final sets are:  
 
 * **pml_training** used for model building and estimating out of sample error (accuracy),
-* **pml_testing** used for prediction on 20 cases. 
+* **pml_testing** used for prediction on 20 cases in the set. 
 
 ```{r load, echo=TRUE, message=FALSE, cache=TRUE}
 library(tidyverse)
@@ -59,8 +59,8 @@ pml_testing <- pml_testing_raw %>%
 
 ## Building predictive model with cross validation
 
-For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **3 repeats of 5-fold cross validation** in train function of caret package (**pml_modfit_rf**).
-Model was trained and evaluated splitting **pml_training** into a train set with 60% of cases (named **training**) and a test set with remaining 40% (named **testing**). Test set was used for bulding confusion matrix and estimating out of sample error (accuracy). Parallel computing was allowed.
+For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **3 repeats of 5-fold cross validation** in **train()** function of caret package.
+Model was trained and evaluated splitting **pml_training** into a proper train set with 60% of cases (named **training**) and a test set with remaining 40% (named **testing**). Test set was used for bulding confusion matrix and estimating out of sample error (accuracy). Parallel computing was allowed.
 
 ```{r fit, echo=TRUE, message=TRUE, cache=TRUE}
 RNGversion("3.0.0")
@@ -88,7 +88,7 @@ pml_modfit_rf
 pml_modfit_rf$finalModel
 ```
 
-Final model (**pml_modfit_rf**) has an **mtry** (the number of variables randomly sampled as candidates at each split) equal to **2** and out of bag (**OOB**) estimate of error rate is **1.66%**. Following graph show that most important predictors are variables with measures from magnets and accelerometers placed on dumbells.
+Final model (**pml_modfit_rf**) has an **mtry** (the number of variables randomly sampled as candidates at each split) equal to **2**. Out Of Bag (**OOB**) estimate of error rate is **1.66%**. Following graph show that most important predictors are variables with measures from magnets and accelerometers placed on dumbells.
 
 ```{r importance, echo=TRUE, message=TRUE, cache=TRUE}
 plot(varImp(pml_modfit_rf), top = 10)
