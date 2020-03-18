@@ -103,7 +103,7 @@ pml_modfit_rf_predict <- predict(pml_modfit_rf, testing)
 confusionMatrix(pml_modfit_rf_predict, testing$classe)
 ```
 
-Finally I used model to predict values for the 20 cases provided.
+Finally I used model to predict values for the 20 cases in **pml_testing**.
 
 ```{r predict, echo=TRUE, message=TRUE, cache=TRUE}
 data.frame(case = 1:20,
