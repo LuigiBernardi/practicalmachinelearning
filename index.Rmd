@@ -33,12 +33,16 @@ In this report I'll briefly explain:
 
 Finally I'll show results of my prection on the 20 cases in testing set.
 
-## Loading and preprocessing the data
+## Loading libraries and data
 
 Raw data were loaded into **pml_training_raw** and **pml_testing_raw** data frames. Then I selected all variables measuring movements (identified by **x**, **y** and **z** suffix) for using them as predictors. Final training and testing sets are **pml_training** and **pml_testing**. 
 
 ```{r load, echo=TRUE, message=FALSE, cache=TRUE}
 library(tidyverse)
+library(caret)
+library(randomForest)
+library(parallel)
+library(doParallel)
 
 pml_training_raw <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 pml_testing_raw <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
@@ -52,56 +56,52 @@ pml_testing <- pml_testing_raw %>%
 
 ## Building predictive model with cross validation
 
-For predicting proper execution of exercise I fitted and compared two different models:  
+For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**).
 
-* A **CART** model using **rpart** method and **10-fold cross validation** in train function of caret package (**pml_modfit_rpart**),
-* A **random forest** model using **rpart** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**). For this model I decided to use just a 2-fold cross validation aiming to reduce computational time if reviewers will decide to run code.
-
-```{r fit, echo=TRUE, message=FALSE, cache=TRUE}
-library(caret)
-
+```{r fit, echo=TRUE, message=TRUE, cache=TRUE}
 RNGversion("3.0.0")
 set.seed(691979)
-pml_modfit_rpart <- train(classe ~ .,
-                          method = "rpart",
-                          trControl = trainControl(method = "cv", number = 10),
-                          data = pml_training)
 
-RNGversion("3.0.0")
-set.seed(691979)
+inTrain <- createDataPartition(y = pml_training$classe, p = 0.60, list=FALSE)
+
+training <- pml_training[inTrain, ]
+testing <- pml_training[-inTrain, ]
+
+cluster <- makeCluster(detectCores() - 1) # uso parallel commputing
+registerDoParallel(cluster)
+
 pml_modfit_rf <- train(classe ~ .,
+                       data = training,
                        method = "rf",
-                       trControl = trainControl(method = "cv", number = 2),
-                       data = pml_training)
-```
+                       importance = T,
+                       trControl = trainControl(method = "repeatedcv",
+                                                number = 5,
+                                                repeats = 3,
+                                                allowParallel = T))
+stopCluster(cluster)
 
-## Comparing models
-
-Evaluation metrics for **pml_modfit_rpart** and **pml_modfit_rf** are reported in following figures.
-
-```{r compare_rpart, echo=TRUE, message=TRUE, cache=TRUE}
-pml_modfit_rpart
-```
-
-```{r compare_rf, echo=TRUE, message=TRUE, cache=TRUE}
 pml_modfit_rf
+pml_modfit_rf$finalModel
 ```
-
-Random forest model **pml_modfit_rf** is more accurate and so I decided to use it as final model for my predictions.
-
-## Final model description
 
 As shown in figure, **pml_modfit_rf** use 36 predictors with a training accuracy of 0.98 and a mtry (the number of variables randomly sampled as candidates at each split) equal to 2. In the following figure predictors are listed in order of importance.
 
 ```{r importance, echo=TRUE, message=TRUE, cache=TRUE}
-varImp(pml_modfit_rf)
+plot(varImp(pml_modfit_rf), top = 10)
 ```
 
 Figure show that for predicting the proper execution of exercise measures from magnets located on the dumbell are the most important variables.
 
-## Expectation regarding out of sample error and predictions for test cases
+## Out of sample error and predictions for test cases
 
-Regarding to out of sample error, I'll expect it to be **greater than in sample error**. Finally I used model to predict values for the 20 test cases provided. Following figure show results of my predictions.
+Out of sample error
+
+```{r out_error, echo=TRUE, message=TRUE, cache=TRUE}
+pml_modfit_rf_predict <- predict(pml_modfit_rf, testing)
+confusionMatrix(pml_modfit_rf_predict, testing$classe)
+```
+
+Finally I used model to predict values for the 20 test cases provided. Following figure show results of my predictions.
 
 ```{r predict, echo=TRUE, message=TRUE, cache=TRUE}
 data.frame(case = 1:20,

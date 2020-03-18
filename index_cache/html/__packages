@@ -10,3 +10,7 @@ stringr
 forcats
 lattice
 caret
+randomForest
+foreach
+iterators
+doParallel
