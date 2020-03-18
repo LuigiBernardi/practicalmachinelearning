@@ -56,7 +56,7 @@ pml_testing <- pml_testing_raw %>%
 
 ## Building predictive model with cross validation
 
-For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**).
+For predicting proper execution of exercise I fitted a **random forest** model using **rf** method and **2-fold cross validation** in train function of caret package (**pml_modfit_rf**). And this
 
 ```{r fit, echo=TRUE, message=TRUE, cache=TRUE}
 RNGversion("3.0.0")
